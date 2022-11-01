@@ -1,60 +1,40 @@
-import { useState } from 'react'
+import React from 'react'
+import { useState, useEffect } from 'react'
+import axios from 'axios'
+import PersonForm from './components/PersonForm'
+import Persons from './components/Persons'
+import SearchBar from './components/SearchBar'
 
 const App = () => {
-  const [persons, setPersons] = useState([
-    { name: 'Arto Hellas' }
-  ])
-  const [newName, setNewName] = useState('')
+  const [persons, setPersons] = useState([])
+  const [searchResults, setSearchResults] = useState([])
 
-  const handleInputChange = (event) => {
-    console.log(event.target.value)
-    setNewName(event.target.value) // We are saving the typed name into newName and retrieve it in addPerson.
-  }
-
-  const addPerson = (event) => {
-    event.preventDefault()
-    persons.forEach(person => {
-      if (JSON.stringify(person.name) === JSON.stringify(newName)) {
-        alert('Name is already in phonebook')
-        
-      }
-    })
-    console.log('button clicked', event.target)
-    const personObject = {
-      name: newName,
-    }
-    setPersons(persons.concat(personObject))
-    setNewName('')
-  }
-
-  // <div>
-    {/* {props.content.map(part => */}
-      // <Part key={part.id} name={part.name} exercises={part.exercises} />
-    // )}
-  {/* </div> */}
-
-  // let sum = 0
-  // props.content.forEach(part => {
-    // sum += part.exercises
-  // });
+  useEffect(() => {
+    console.log('effect')
+    axios
+      .get('http://localhost:3001/persons')
+      .then(response => {
+        console.log('promise fulfilled')
+        setPersons(response.data)
+        setSearchResults(response.data)
+      })
+  }, [])
+  console.log('render', persons.length, 'notes')
 
   return (
     <div>
       <h2>Phonebook</h2>
-      <form onSubmit={addPerson}>
-        <div>
-          name:
-          <input
-            value={newName}
-            onChange={handleInputChange}
-          />
-        </div>
-        <div>
-          <button type="submit">add</button>
-        </div>
-      </form>
-      <h2>Numbers</h2>
-      ...
+      <div>
+        <SearchBar persons={persons} setSearchResults={setSearchResults} />
+      </div>
+      <h3>Add a new</h3>
+      <div>
+        <PersonForm persons={persons} setPersons={setPersons} />
+      </div>
+      <h3>Numbers</h3>
+      <div>
+        <Persons persons={searchResults} />
+      </div>
     </div>
   )
 }
