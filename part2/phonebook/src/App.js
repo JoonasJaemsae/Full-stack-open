@@ -10,16 +10,15 @@ const App = () => {
   const [searchResults, setSearchResults] = useState([])
 
   useEffect(() => {
-    console.log('effect')
     axios
       .get('http://localhost:3001/persons')
       .then(response => {
-        console.log('promise fulfilled')
         setPersons(response.data)
         setSearchResults(response.data)
+      }).catch(error => {
+        console.error(error)
       })
   }, [])
-  console.log('render', persons.length, 'notes')
 
   return (
     <div>
