@@ -1,4 +1,4 @@
-The application also uses axios.
+The application uses axios.
 
 In order for the weather API features to work, you will need to create a file called '.env' in the root of the project
 and make the content like so:
