@@ -16,7 +16,7 @@ const SearchBar = ({ persons, setSearchResults }) => {
     return (
         <header>
             <form onSubmit={handleSubmit}>
-                filter shown with
+                filter shown with&nbsp;
                 <input onChange={handleSearchChange} />
             </form>
         </header>
