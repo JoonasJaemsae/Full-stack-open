@@ -1,0 +1,38 @@
+{
+  "name": "phonebook",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build:ui": "del build /F && cd /../phonebook_front/ && npm run build && xcopy C:\\MAMP\\htdocs\\fullstackopen\\phonebook_front\\build\\* C:\\MAMP\\htdocs\\fullstackopen\\phonebook\\build /s",
+    "deploy": "flyctl deploy",
+    "deploy:full": "npm run build:ui && npm run deploy",
+    "logs:prod": "flyctl logs",
+    "lint": "eslint ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JoonasJaemsae/phonebook.git"
+  },
+  "author": "JoonasJaemsae",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/JoonasJaemsae/phonebook/issues"
+  },
+  "homepage": "https://github.com/JoonasJaemsae/phonebook#readme",
+  "devDependencies": {
+    "eslint": "^8.28.0",
+    "nodemon": "^2.0.20"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "mongoose": "^6.7.2",
+    "morgan": "^1.10.0"
+  },
+  "proxy": "http://localhost:3001"
+}
