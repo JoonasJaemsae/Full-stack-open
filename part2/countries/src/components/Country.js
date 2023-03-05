@@ -30,13 +30,14 @@ const Country = ({ country, languages }) => {
     for (const x in myObj) {
       arrayAsString += myObj[x] + ","
     }
-    const newArray = (arrayAsString.split(",")).slice(0, -1) // We are removing the last element from the array, which is an empty string.
+    const newArray = (arrayAsString.split(",")).slice(0, -1)
+    // Above we are removing the last element from the array, which is an empty string.
     setLanguageArray(newArray)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   // Fetching the icon image takes so long, that we'll want to not proceed 
-  // and instead render 'Loading' or some such message over and over until 
+  // and instead render 'Loading' or some such message until 
   // we have all the data. Otherwise we'll end up with an error message saying
   // "Cannot read properties of undefined (reading '0')" when trying to read
   // the expression weatherData.weather[0].icon below too early.
