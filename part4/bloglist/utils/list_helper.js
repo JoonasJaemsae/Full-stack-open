@@ -1,3 +1,5 @@
+var _ = require('lodash')
+
 const dummy = (blogs) => {
     return 1
 }
@@ -39,7 +41,6 @@ const favoriteBlog = (array) => {
         author: array[0]['author'],
         likes: array[0]['likes']
     }
-    // }
     console.log('initialBlog:', initialBlog)
     // console.log('initialBlog after JSON.stringify:', JSON.stringify(initialBlog))
     const result = array.reduce(reducer, initialBlog)
@@ -47,8 +48,41 @@ const favoriteBlog = (array) => {
     return result
 }
 
+const mostBlogs = (array) => {
+    if (array.length === 0
+        || !array[0].hasOwnProperty('title')
+        || !array[0].hasOwnProperty('author')
+        || !array[0].hasOwnProperty('likes')) {
+        console.log('Array was empty or contained undesirable objects. Returning an empty array.')
+        return {}
+    }
+
+    const authorCounts = _.countBy(array, 'author')
+    // console.log('authorCounts', authorCounts)
+
+    var topAuthor = ''
+    var topNumber = 0
+
+    _.forEach(authorCounts, function(value, key) {
+        // console.log(value);
+        // console.log(key);
+        if (value > topNumber) {
+            topAuthor = key
+            topNumber = value
+        }
+    })
+
+    // console.log('topAuthor', topAuthor)
+    // console.log('topNumber', topNumber)
+
+    const result = { author: topAuthor, blogs: topNumber }
+    // console.log('result:', result)
+    return result
+}
+
 module.exports = {
     dummy,
     totalLikes,
-    favoriteBlog
+    favoriteBlog,
+    mostBlogs
 }
