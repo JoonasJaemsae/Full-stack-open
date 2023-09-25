@@ -57,15 +57,15 @@ const mostBlogs = (array) => {
         return {}
     }
 
-    const authorCounts = _.countBy(array, 'author')
-    // console.log('authorCounts', authorCounts)
+    const blogsPerAuthor = _.countBy(array, 'author')
+    // console.log('blogsPerAuthor', blogsPerAuthor)
 
     var topAuthor = ''
     var topNumber = 0
 
-    _.forEach(authorCounts, function(value, key) {
-        // console.log(value);
-        // console.log(key);
+    _.forEach(blogsPerAuthor, function(value, key) {
+        // console.log(value)
+        // console.log(key)
         if (value > topNumber) {
             topAuthor = key
             topNumber = value
