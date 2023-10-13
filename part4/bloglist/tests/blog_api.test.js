@@ -31,3 +31,11 @@ test('the correct number of blogs are returned', async () => {
     // console.log('helper.initialBlogs.length', helper.initialBlogs.length)
     expect(response.body).toHaveLength(helper.initialBlogs.length)
 })
+
+test('blogs have an id field', async () => {
+    const response = await api.get('/api/blogs')
+
+    // console.log('response.body[0]', response.body[0])
+    // console.log('response.body[0].id', response.body[0].id)
+    expect(response.body[0].id).toBeDefined()
+})
