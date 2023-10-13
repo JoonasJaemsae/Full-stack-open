@@ -39,3 +39,26 @@ test('blogs have an id field', async () => {
     // console.log('response.body[0].id', response.body[0].id)
     expect(response.body[0].id).toBeDefined()
 })
+
+test('a new blog can be added', async () => {
+
+    const blogsAtStart = await api.get('/api/blogs')
+
+    const newBlog =
+    {
+        title: 'A new, third blog entry',
+        author: 'Jester',
+        url: 'made-up-address.com',
+        likes: 4
+    }
+
+    await api
+        .post('/api/blogs')
+        .send(newBlog)
+        .expect(201)
+        .expect('Content-Type', /application\/json/)
+
+    const blogsAtEnd = await api.get('/api/blogs')
+    console.log('blogsAtEnd.body', blogsAtEnd.body)
+    expect(blogsAtEnd.body).toHaveLength(blogsAtStart.body.length + 1)
+})
