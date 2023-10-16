@@ -36,7 +36,8 @@ test('blogs have an id field', async () => {
 
 test('a new blog can be added', async () => {
 
-    const blogsAtStart = await api.get('/api/blogs')
+    const blogsAtStart = helper.initialBlogs
+    console.log('blogsAtStart', blogsAtStart)
 
     const newBlog =
     {
@@ -52,7 +53,21 @@ test('a new blog can be added', async () => {
         .expect(201)
         .expect('Content-Type', /application\/json/)
 
-    const blogsAtEnd = await api.get('/api/blogs')
-    console.log('blogsAtEnd.body', blogsAtEnd.body)
-    expect(blogsAtEnd.body).toHaveLength(blogsAtStart.body.length + 1)
+    const blogsAtEnd = await helper.blogsInDB()
+    console.log('blogsAtEnd', blogsAtEnd)
+    expect(blogsAtEnd).toHaveLength(blogsAtStart.length + 1)
+
+    // // Alternatively the following works as well
+    // const blogsAtStart = await api.get('/api/blogs')
+    // // Add new blog at this point.
+    // const blogsAtEnd = await api.get('/api/blogs')
+    // // console.log('blogsAtEnd.body', blogsAtEnd.body)
+    // expect(blogsAtEnd.body).toHaveLength(blogsAtStart.body.length + 1)
+    // // Note the instances of "body" above.
+
+    const titles = blogsAtEnd.map(n => n.title)
+
+    expect(titles).toContain(
+        'A new, third blog entry'
+    )
 })
