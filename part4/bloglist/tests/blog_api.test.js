@@ -17,18 +17,12 @@ beforeEach(async () => {
     await blogObject.save()
 })
 
-test('blogs are returned as json', async () => {
-    await api
+test('the correct number of blogs are returned as json', async () => {
+    const response = await api
         .get('/api/blogs')
         .expect(200)
         .expect('Content-Type', /application\/json/)
-})
 
-test('the correct number of blogs are returned', async () => {
-    const response = await api.get('/api/blogs')
-
-    // console.log('response.body.length', response.body.length)
-    // console.log('helper.initialBlogs.length', helper.initialBlogs.length)
     expect(response.body).toHaveLength(helper.initialBlogs.length)
 })
 
