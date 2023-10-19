@@ -71,3 +71,24 @@ test('a new blog can be added', async () => {
         'A new, third blog entry'
     )
 })
+
+test('likes of a new blog become 0 when not given a value', async () => {
+    const noLikesFieldBlog =
+    {
+        title: 'Zero Likes Dilemma',
+        author: 'Delta',
+        url: '999.com',
+    }
+
+    await api
+        .post('/api/blogs')
+        .send(noLikesFieldBlog)
+        .expect(201)
+        .expect('Content-type', /application\/json/)
+
+    // Returns blogs as JSON
+    const blogsAtEnd = await helper.blogsInDB()
+    console.log('Blogs at zero likes', blogsAtEnd)
+    expect(blogsAtEnd[2].likes).toBeDefined()
+    expect(blogsAtEnd[2].likes).toBe(0)
+})
