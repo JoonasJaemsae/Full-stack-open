@@ -10,11 +10,17 @@ const Blog = require('../models/blog')
 beforeEach(async () => {
     await Blog.deleteMany({})
 
-    let blogObject = new Blog(helper.initialBlogs[0])
-    await blogObject.save()
+    // let blogObject = new Blog(helper.initialBlogs[0])
+    // await blogObject.save()
 
-    blogObject = new Blog(helper.initialBlogs[1])
-    await blogObject.save()
+    // blogObject = new Blog(helper.initialBlogs[1])
+    // await blogObject.save()
+
+
+    const blogObjects = helper.initialBlogs
+        .map(blog => new Blog(blog))
+    const promiseArray = blogObjects.map(blog => blog.save())
+    await Promise.all(promiseArray)
 })
 
 test('the correct number of blogs are returned as json', async () => {
@@ -37,7 +43,7 @@ test('blogs have an id field', async () => {
 test('a new blog can be added', async () => {
 
     const blogsAtStart = helper.initialBlogs
-    console.log('blogsAtStart', blogsAtStart)
+    // console.log('blogsAtStart', blogsAtStart)
 
     const newBlog =
     {
@@ -54,7 +60,7 @@ test('a new blog can be added', async () => {
         .expect('Content-Type', /application\/json/)
 
     const blogsAtEnd = await helper.blogsInDB()
-    console.log('blogsAtEnd', blogsAtEnd)
+    // console.log('blogsAtEnd', blogsAtEnd)
     expect(blogsAtEnd).toHaveLength(blogsAtStart.length + 1)
 
     // // Alternatively the following works as well
@@ -88,7 +94,24 @@ test('likes of a new blog become 0 when not given a value', async () => {
 
     // Returns blogs as JSON
     const blogsAtEnd = await helper.blogsInDB()
-    console.log('Blogs at zero likes', blogsAtEnd)
+    // console.log('Blogs at zero likes', blogsAtEnd)
     expect(blogsAtEnd[2].likes).toBeDefined()
     expect(blogsAtEnd[2].likes).toBe(0)
+})
+
+test('a blog without a title is not added', async () => {
+    const titlelessBlog =
+    {
+        author: 'Nameless',
+        url: 'www.titles-are-useless.com',
+        likes: 5
+    }
+
+    await api
+        .post('/api/blogs')
+        .send(titlelessBlog)
+        .expect(400)
+
+    const blogsAtEnd = await helper.blogsInDB()
+    expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length)
 })
