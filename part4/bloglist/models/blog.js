@@ -1,14 +1,14 @@
 const mongoose = require('mongoose')
 
+// Don't use required here, or you'll end up with 500 Internal Server Error
+// when trying to submit a blog without a title or url, for some reason.
 const blogSchema = new mongoose.Schema({
     title: {
-        type: String,
-        required: true
+        type: String
     },
     author: String,
     url: {
-        type: String,
-        required: true
+        type: String
     },
     likes: Number
 })
