@@ -4,11 +4,13 @@ const mongoose = require('mongoose')
 // when trying to submit a blog without a title or url, for some reason.
 const blogSchema = new mongoose.Schema({
     title: {
-        type: String
+        type: String,
+        required: true
     },
     author: String,
     url: {
-        type: String
+        type: String,
+        required: true
     },
     likes: Number
 })
