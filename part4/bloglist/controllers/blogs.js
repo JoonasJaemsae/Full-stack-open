@@ -12,13 +12,6 @@ blogsRouter.get('/', (request, response) => {
 blogsRouter.post('/', async (request, response) => {
     const body = request.body
 
-    if (!body.title) {
-        return response.status(400).json({ error: 'Title is missing' })
-    }
-    if (!body.url) {
-        return response.status(400).json({ error: 'URL is missing' })
-    }
-
     const blog = new Blog({
         title: body.title,
         author: body.author,
