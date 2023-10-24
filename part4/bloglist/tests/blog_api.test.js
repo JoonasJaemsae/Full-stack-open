@@ -132,3 +132,7 @@ test('a blog without a url is not added', async () => {
     const blogsAtEnd = await helper.blogsInDB()
     expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length)
 })
+
+afterAll(() => {
+    mongoose.connection.close()
+})
