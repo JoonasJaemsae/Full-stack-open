@@ -115,3 +115,20 @@ test('a blog without a title is not added', async () => {
     const blogsAtEnd = await helper.blogsInDB()
     expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length)
 })
+
+test('a blog without a url is not added', async () => {
+    const urllessBlog =
+    {
+        title: 'How I survived without the Internet',
+        author: 'Someone who hates URLs',
+        likes: 6
+    }
+
+    await api
+        .post('/api/blogs')
+        .send(urllessBlog)
+        .expect(400)
+
+    const blogsAtEnd = await helper.blogsInDB()
+    expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length)
+})
